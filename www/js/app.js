@@ -20,6 +20,19 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+            //极光推送
+            window.plugins.jPushPlugin.init();
+
+            //初始化友盟统计配置
+            window.plugins.umengAnalyticsPlugin.init();
+            //调试模式
+            //window.plugins.umengAnalyticsPlugin.setDebugMode(true);
+
+            //注意，这段代码是应用退出前保存统计数据，请在退出应用前调用
+            //window.plugins.umengAnalyticsPlugin.onKillProcess();
+
+            console.log("启动成功！")
+
         });
     })
     .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
