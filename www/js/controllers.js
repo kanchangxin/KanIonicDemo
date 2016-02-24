@@ -60,6 +60,14 @@ angular.module('starter.controllers', [])
                 alert(e);
             }
         });
+
+        $scope.playPolyVideo = function () {
+            var player = polyvObject('#player_sdfpaoij4es').videoPlayer({
+                'width': '600',
+                'height': '337',
+                'vid': 'ca1d097c8a1a4c65592f7fd341d97104_c'
+            });
+        }
     })
     .controller('Portrait', function ($scope, $ionicPopup) {
         $scope.$on('$ionicView.enter', function( ){
