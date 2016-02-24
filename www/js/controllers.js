@@ -32,3 +32,49 @@ angular.module('starter.controllers', [])
             window.localStorage['first'] = '1';
         };
     })
+
+    .controller('ScreenOrientationLock', function ($scope ) {
+        $scope.$on('$ionicView.enter', function( ){
+            try{
+                alert("当前屏幕朝向："+screen.orientation)
+            }catch(e){
+                alert(e);
+            }
+        });
+
+    })
+    .controller('Landscape', function ($scope, $ionicModal, $ionicPopup) {
+
+        $scope.$on('$ionicView.enter', function( ){
+            try{
+                screen.lockOrientation('landscape');
+                alert(screen.orientation)
+            }catch(e){
+                alert(e);
+            }
+        });
+        $scope.$on('$ionicView.beforeLeave', function( ){
+            try{
+                screen.unlockOrientation();
+            }catch(e){
+                alert(e);
+            }
+        });
+    })
+    .controller('Portrait', function ($scope, $ionicPopup) {
+        $scope.$on('$ionicView.enter', function( ){
+            try{
+                screen.lockOrientation('portrait');
+                alert(screen.orientation)
+            }catch(e){
+                alert(e);
+            }
+        });
+        $scope.$on('$ionicView.beforeLeave', function( ){
+            try{
+                 screen.unlockOrientation();
+            }catch(e){
+                alert(e);
+            }
+        });
+    })

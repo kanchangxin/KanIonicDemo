@@ -36,6 +36,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         });
     })
     .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+        //定义返回按钮文字为空
+        $ionicConfigProvider.backButton.previousTitleText(false).text('');
         //andoird 底部出现在了上部 解决方案
         $ionicConfigProvider.platform.ios.tabs.style('standard');
         $ionicConfigProvider.platform.ios.tabs.position('bottom');
@@ -75,6 +77,36 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                     'welcome': {
                         templateUrl: 'templates/welcome/w_page.html',
                         controller: 'Welcome'
+                    }
+                }
+            })
+
+            .state('tab.screen', {
+                url: '/screen',
+                views: {
+                    'screen': {
+                        templateUrl: 'templates/screen/index.html',
+                        controller: 'ScreenOrientationLock'
+                    }
+                }
+            })
+
+            .state('tab.landscape', {
+                url: '/landscape',
+                views: {
+                    'screen': {
+                        templateUrl: 'templates/screen/landscape.html',
+                        controller: 'Landscape'
+                    }
+                }
+            })
+
+            .state('tab.portrait', {
+                url: '/portrait',
+                views: {
+                    'screen': {
+                        templateUrl: 'templates/screen/portrait.html',
+                        controller: 'Portrait'
                     }
                 }
             })

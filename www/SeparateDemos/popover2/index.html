@@ -1,0 +1,70 @@
+<html ng-app="ionicApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Ionic Popover</title>
+
+    <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+    <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+    <script src="js.js"></script>
+    <style>
+        body {
+            cursor: url('http://ionicframework.com/img/finger.png'), auto;
+        }
+    </style>
+
+</head>
+<body class="platform-ios" ng-controller="AppCtrl">
+
+<div class="bar bar-header">
+    <h1 class="title">Popover</h1>
+    <div class="buttons">
+        <button class="button button-icon ion-more" ng-click="popover.show($event)">
+        </button>
+    </div>
+</div>
+<div class="bar bar-subheader">
+    <div class=" button-bar">
+        <button class="button button-light button-android" ng-class="{ 'button\-positive': demo == 'ios' }" ng-click="setPlatform('ios')">
+            iOS
+        </button>
+        <button class="button button-light button-android" ng-class="{ 'button\-positive': demo == 'android' }" ng-click="setPlatform('android')">
+            Android
+        </button>
+        <button class="button button-light button-android" ng-class="{ 'button\-positive': demo == 'ionic' }" ng-click="setPlatform('ionic')">
+            Ionic
+        </button>
+    </div>
+</div>
+
+<ion-content class="padding has-subheader">
+    Click the more info icon in the top right. In an actual app the platform style will automatically be set.
+</ion-content>
+
+<script id="templates/popover.html" type="text/ng-template">
+    <ion-popover-view>
+        <ion-content>
+            <div class="list">
+                <a class="item" href="http://learn.ionicframework.com/" target="_blank">
+                    Learn Ionic
+                </a>
+                <a class="item" href="http://ionicframework.com/docs/" target="_blank">
+                    Documentation
+                </a>
+                <a class="item" href="http://showcase.ionicframework.com/" target="_blank">
+                    Showcase
+                </a>
+                <a class="item" href="http://ionicframework.com/submit-issue/" target="_blank">
+                    Submit an Issue
+                </a>
+                <a class="item" href="https://github.com/driftyco/ionic" target="_blank">
+                    Github Repo
+                </a>
+            </div>
+        </ion-content>
+    </ion-popover-view>
+</script>
+
+</body>
+</html>

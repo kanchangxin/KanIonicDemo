@@ -1,0 +1,39 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Tabs Example</title>
+
+    <!--<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">-->
+    <!--<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>-->
+    <link href="../../lib/ionic/css/ionic.css" rel="stylesheet">
+    <script src="../../lib/ionic/js/ionic.bundle.js"></script>
+    <script src="js.js"></script>
+
+    <!--<style>-->
+        <!--.bar .buttons span {-->
+            <!--display: none;-->
+        <!--}-->
+    <!--</style>-->
+</head>
+
+<body>
+
+<p ng-app="testApp" ng-controller="MyController">
+    <button ng-click="openPopover($event)">Open Popover</button>
+</p>
+
+<script id="templates/my-popover.html" type="text/ng-template">
+    <ion-popover-view>
+        <ion-header-bar>
+            <h1 class="title">My Popover Title</h1>
+        </ion-header-bar>
+        <ion-content>
+            Hello!
+        </ion-content>
+    </ion-popover-view>
+</script>
+
+</body>
+</html>
