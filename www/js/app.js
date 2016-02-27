@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'starter.controllers'])
 
-    .run(function ($ionicPlatform) {
+    .run(function ($ionicPlatform,$ionicLoading) {
         $ionicPlatform.ready(function () {
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -17,6 +17,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 // a much nicer keyboard experience.
                 cordova.plugins.Keyboard.disableScroll(true);
             }
+
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
@@ -31,7 +32,49 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             //注意，这段代码是应用退出前保存统计数据，请在退出应用前调用
             //window.plugins.umengAnalyticsPlugin.onKillProcess();
 
-            console.log("启动成功！")
+            //检查更新
+            //checkUpdate();
+            //
+            //function checkUpdate() {
+            //    $cordovaAppVersion.getAppVersion().then(function(version) {
+            //        Userinfo.add('version', version);
+            //        $http.get('http://192.168.21.194:8100/www/demoVersionJson.html?v=' + version).success(function(data) {
+            //            if (data.error == 0) {
+            //                if (version != data.version) {
+            //                    showUpdateConfirm(data.desc, data.apk);
+            //                }
+            //            }
+            //        })
+            //    });
+            //};
+            //
+            //function showUpdateConfirm(desc, url) {
+            //    var confirmPopup = $ionicPopup.confirm({
+            //        title: '有新版本了！是否要升级？',
+            //        template: desc,
+            //        cancelText: '下一次',
+            //        okText: '确定'
+            //    });
+            //    var url = url;
+            //    confirmPopup.then(function(res) {
+            //        if (res) {
+            //            window.open(url, '_system', 'location=yes');
+            //        };
+            //
+            //    });
+            //}
+
+            /*监听网络状态*/
+            document.addEventListener("offline", onOffline, false);
+
+            function onOffline() {
+                $ionicLoading.show({ template: '请检查网络连接', noBackdrop: true, duration: 3000 });
+            }
+            document.addEventListener("online", onOnline, false);
+
+            function onOnline() {
+                $ionicLoading.show({ template: '网络已经连接', noBackdrop: true, duration: 3000 });
+            }
 
         });
     })
@@ -107,6 +150,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                     'screen': {
                         templateUrl: 'templates/screen/portrait.html',
                         controller: 'Portrait'
+                    }
+                }
+            })
+
+
+            .state('tab.plugin', {
+                url: '/plugin',
+                views: {
+                    'plugin': {
+                        templateUrl: 'templates/plugin/index.html',
+                        controller: 'Plugin'
                     }
                 }
             })
