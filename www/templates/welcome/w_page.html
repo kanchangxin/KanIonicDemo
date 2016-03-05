@@ -1,33 +1,87 @@
-<ion-slide-box   on-slide-changed="slideHasChanged($index)">
-	<ion-slide>
-		<div class="guide-bg-a"> </div>
-	</ion-slide>
-	<ion-slide>
-		<div class="guide-bg-b"> </div>
-	</ion-slide>
-	<ion-slide>
-		<div class="guide-bg-c">
-			<div class="guide-sure"   ng-click="guideSure()"></div>
-		</div>
-	</ion-slide>
-</ion-slide-box>
+<ion-view>
+    <ion-content class="guid" style="  overflow: auto;    width:100%;    height:100%;">
 
+        <ion-slide-box on-slide-changed="slideHasChanged($index)" style="height:100%">
+            <ion-slide style="height:100%;">
+
+                    <div class="guide-bg-a" style=" height:100%;" ></div>
+
+
+            </ion-slide>
+            <ion-slide>
+                <div class="guide-bg-b"></div>
+            </ion-slide>
+            <ion-slide>
+                <div class="guide-bg-c">
+                    <div class="guide-sure" ng-click="guideSure()"></div>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
+
+    </ion-content>
+</ion-view>
+<style>
+    .guid .scroll{
+        height:100%;
+    }
+    /* Empty. Add your own CSS if you like */
+    /** 首次欢迎屏幕 **/
+    .guide-bg-a{
+        background: url(img/welcome/welcome-a.jpg) 0 0 no-repeat;
+        background-size: 16rem;
+        height: 100%;
+    }
+    .guide-bg-b{
+        background: url(img/welcome/welcome-b.jpg) 0 0 no-repeat;
+        background-size: 16rem;
+        height: 100%;
+    }
+    .guide-bg-c{
+        background: url(img/welcome/welcome-c.jpg) 0 0 no-repeat;
+        background-size: 16rem;
+        height: 100%;
+    }
+    .guide-bg-d{
+        background: url(img/welcome/welcome-d.jpg) 0 0 no-repeat;
+        background-size: 16rem;
+        left: 64rem;
+        height: 100%;
+    }
+    .guide-bg-e{
+        background: url(img/welcome/welcome-e.jpg) 0 0 no-repeat;
+        background-size: 16rem;
+        left: 80rem;
+        height: 100%;
+    }
+    .guide-sure{
+        position: absolute;
+        width: 6rem;
+        height: 2rem;
+        background: url(img/welcome/guide-sure.png) 0 0 no-repeat;
+        background-size: 5.9rem 1.7rem;
+        margin: 0 auto;
+        bottom: 60px;
+        left: 50%;
+        margin-left: -3rem;
+    }
+
+</style>
 <!--<div class="guide-start" on-swipe-left="onSwipeLeft()" on-swipe-right="onSwipeRight()">-->
-	<!--<div id="guide">-->
-		<!--<div id="guide-wrapper" data-value="0" style="-webkit-transition: 180ms ease-out; transition: 180ms ease-out; transform:translateX(0px) translateZ(0px); -webkit-transform: translateX(0px) translateZ(0px);">-->
-			<!--<div class="guide-bg-a"></div>-->
-			<!--<div class="guide-bg-b"></div>-->
-			<!--<div class="guide-bg-c"></div>-->
-			<!--<div class="guide-bg-d"></div>-->
-			<!--<div class="guide-bg-e"></div>-->
-		<!--</div>-->
-		<!--<ul id="guide-arrow" ng-if="guideFlag == 'a'">-->
-			<!--<li class="active"></li>-->
-			<!--<li></li>-->
-			<!--<li></li>-->
-			<!--<li></li>-->
-			<!--<li></li>-->
-		<!--</ul>-->
+<!--<div id="guide">-->
+<!--<div id="guide-wrapper" data-value="0" style="-webkit-transition: 180ms ease-out; transition: 180ms ease-out; transform:translateX(0px) translateZ(0px); -webkit-transform: translateX(0px) translateZ(0px);">-->
+<!--<div class="guide-bg-a"></div>-->
+<!--<div class="guide-bg-b"></div>-->
+<!--<div class="guide-bg-c"></div>-->
+<!--<div class="guide-bg-d"></div>-->
+<!--<div class="guide-bg-e"></div>-->
+<!--</div>-->
+<!--<ul id="guide-arrow" ng-if="guideFlag == 'a'">-->
+<!--<li class="active"></li>-->
+<!--<li></li>-->
+<!--<li></li>-->
+<!--<li></li>-->
+<!--<li></li>-->
+<!--</ul>-->
 
-	<!--</div>-->
+<!--</div>-->
 <!--</div>-->

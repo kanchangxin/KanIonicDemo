@@ -1,18 +1,23 @@
-<ion-header-bar class="bar bar-header item-input-inset assertive-bg-new">
-header
-</ion-header-bar>
-<ion-content>
+<ion-view view-title="home">
+    <ion-content>
 
- <ul class="list">
-  <li class="item">
-    <button ng-click="checkUpdate()">检查更新</button>
+        <ul class="list">
+            <li class="item">
+                <button ng-click="checkUpdate()">检查更新</button>
+                <br>
 
-   <button ng-click="checkConnection()">检查网络连接状态</button>
-  </li>
- </ul>
+                <button ng-click="checkConnection()">检查网络连接状态</button>
+                <br>
 
+                <button ng-click="openMap()">浏览器打开</button>
+                <br>
 
- </ion-item>
+                <a href="#/tab/map">百度地图</a><br>
 
-</ion-content>
+                <a href="SeparateDemos/slide/index.html" >slide</a>
+
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>
 

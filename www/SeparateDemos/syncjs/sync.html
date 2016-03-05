@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script src="sync.js"></script>
+<script>
+
+    var a = new Sync(1000);
+    a.addListener(function(n){console.log('notify .' + n)});
+    a.addCircle(2, function(n) {console.log('execute 2 -- ' + n)});
+    a.addCircle(4, function(n) {console.log('execute 4 -- ' + n)});
+    a.addCircle(8, function(n) {console.log('execute 8 -- ' + n)});
+//    setTimeout(function() {
+//        a.addCircle(function(n) {console.log('execute n -- ' + n)});
+//        setTimeout(function() {
+//            a.finish();
+//        }, 3000);
+//    }, 3000);
+
+</script>

@@ -79,6 +79,11 @@ angular.module('starter.controllers', [])
 
             alert('Connection type: ' + states[networkState]);
         }
+
+        $scope.openMap=function(){
+            var uri = 'http://api.map.baidu.com/marker?location=40.047669,116.313082&title=我的位置&content=百度奎科大厦&output=html&src=yourComponyName|yourAppName ';
+            var inApp = window.open(uri, '_blank', 'location=yes');
+        }
     })
 
     .controller('Welcome', function ($scope, $ionicModal, $state, $timeout) {
@@ -188,5 +193,9 @@ angular.module('starter.controllers', [])
             }, 24000);
         }
 
+
+    })
+
+    .controller('MapController', function ($scope, $timeout) {
 
     })

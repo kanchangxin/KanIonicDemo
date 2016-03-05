@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+
+    function a(){
+        setTimeout("return true",2000)
+    }
+
+    function b(){
+        console.log("bbbbbbb")
+    }
+
+    if(a()){
+        b();
+    }else
+    {
+        console.log("b没执行的");
+    }
+
+</script>

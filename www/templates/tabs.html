@@ -1,13 +1,10 @@
-<!--
-Create tabs with an icon and label, using the tabs-positive style.
-Each tab's child <ion-nav-view> directive will have its own
-navigation history that also transitions its views in and out.
--->
 
-<!-- <ion-nav-view name="tab-index"></ion-nav-view> -->
-
+<ion-nav-bar class="bar-positive"   >
+    <ion-nav-back-button >
+    </ion-nav-back-button>
+</ion-nav-bar>
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
-  
+
   <ion-tab title="首  页" icon-off="ion-ios-home-outline" icon-on="ion-ios-home-outline" href="#/tab/index/{{closetips}}">
     <ion-nav-view name="tab-index"></ion-nav-view>
   </ion-tab>
@@ -16,10 +13,6 @@ navigation history that also transitions its views in and out.
         <ion-nav-view name="screen"></ion-nav-view>
     </ion-tab>
 
-<!--   <ion-tab title="折买好货" icon-off="ion-new-zhemai" icon-on="ion-new-zhemai-off" ng-click="goZhemai()">
-    <ion-nav-view name="zhemai"></ion-nav-view>
-  </ion-tab>
- -->
    <ion-tab title="插件" icon-off="ion-ios-person-outline" icon-on="ion-ios-person-outline" href="#/tab/plugin">
     <ion-nav-view name="plugin"></ion-nav-view>
   </ion-tab>

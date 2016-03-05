@@ -1,0 +1,33 @@
+<ion-view view-title="无线动slide">
+    <ion-content id="t1">
+        <!--on-drag-left="onSwipeLeft()"-->
+        <div class="guide-start" on-swipe-left="onSwipeLeft()" on-swipe-right="onSwipeRight()">
+            <div id="guide">
+                <div id="guide-wrapper" data-value="0" style="-webkit-transition: 180ms ease-out;
+        transition: 180ms ease-out;
+        transform:translateX(0px) translateZ(0px);
+        -webkit-transform: translateX(0px) translateZ(0px);">
+
+                    <div class="guide-bg" ng-repeat="aElement in alist" style="background-color:#2222{{aElement}}{{aElement}} ">
+                        {{aElement}}<br>1<br>1<br>1<br>1<br>
+                    </div>
+
+                </div>
+                <ul id="guide-arrow" ng-if="guideFlag == 'a'">
+                    <li class="guide-bg" ng-repeat="aElement in alist"></li>
+                    <!--<li class="active"></li>-->
+
+                </ul>
+                <div class="guide-sure" ng-if="guideFlag == 'b'" ng-click="guideSure()"></div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+<style>
+    #t1 .scroll {
+        height: 100%;
+    }
+</style>
+
+
