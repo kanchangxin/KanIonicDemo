@@ -97,30 +97,44 @@ angular.module('ionicApp', ['ionic'])
           ExamDBValue.findOneValue($attrs.id).then(function (res) {
                     $element.html(res);
                     console.log("mathjaxBind  $watch 从缓存中读取:"+ $attrs.id)
-                    $scope.examid_cached.push($attrs.id);
-
+                   // $scope.examid_cached.push($attrs.id);
+                    //MathJax.Hub.Queue(
+                    //  ["Process",MathJax.Hub,$element[0]]
+                    //);
 
           },function (err) {
                     console.debug("没找到:"+$attrs.id);
-                    $scope.examid_nocache.push($attrs.id);
+                    //$scope.examid_nocache.push($attrs.id);
                     $element.html(value == undefined ? "" : value);
                     var timerb = new Date().getTime();
-                    MathJax.Hub.Queue(function () {//这里没办法做到一题一次！
-                      MathJax.Hub.Typeset($element[0],
-                      //  function () {
-                      //  console.log('公式耗时：'+$element[0].id+","+ (new Date().getTime() - timerb ));
-                      //
-                      //  setCache();
+
+                    MathJax.Hub.Queue(
+                      ["Typeset",MathJax.Hub,$element[0]]
+                      ,[dosomethins, $element[0].id,timerb] //等价于function(){ dosomethins($element[0].id,timerb)}
+                      //,function () {
+                      //  console.log($element[0].id+"处理完成,耗时："+(new Date().getTime() - timerb) );
+                      //  console.log( $element[0].innerHTML )
                       //}
-                        dosomethins($element[0].id,timerb)
-                      );
-                    });
+                    );
+
+                    //MathJax.Hub.Queue(function () {//这里没办法做到一题一次！
+                    //  MathJax.Hub.Typeset($element[0],
+                    //  //  function () {
+                    //  //  console.log('公式耗时：'+$element[0].id+","+ (new Date().getTime() - timerb ));
+                    //  //
+                    //  //  setCache();
+                    //  //}
+                    //    dosomethins($element[0].id,timerb)
+                    //  );
+                    //});
           })
         });
         function dosomethins(id,timerbegin ){
-          console.log('公式：'+id+"耗时:"+ (new Date().getTime() - timerbegin ));
+
+          console.log('公式：'+id+"耗时:"+timerbegin+","+ (new Date().getTime() - timerbegin ));
           var timerb2 = new Date().getTime();
           var ele=document.getElementById(id);
+          //console.log( ele.innerHTML )
           ExamDBValue.set(id, ele.innerHTML).then(function (res) {console.log("写缓存耗时：" + (new Date().getTime() - timerb2 ))},function (err) {console.log(err)})
         }
         //function setCache(id){
@@ -141,13 +155,15 @@ angular.module('ionicApp', ['ionic'])
     };
   })
 
-  .controller('formulaCtrl', function ($scope,ExamDb,ExamDBValue  ) {
-    $scope.examid_cached=[];//已缓存的题目id
-    $scope.examid_nocache=[];//为缓存的题目id
+  .controller('formulaCtrl', function ($scope,ExamDb ) {
+    //$scope.examid_cached=[];//已缓存的题目id
+    //$scope.examid_nocache=[];//为缓存的题目id
     $scope.cleantable= function( ){
       ExamDb.dropTable()
     }
-
+    $scope.adddata=function(){
+      $scope.formulaCollection.push(get360Date().data.examList.splice(3,1)[0] );
+    }
 
      ///////////
     //var db = new PouchDB('dbname');
@@ -166,7 +182,7 @@ angular.module('ionicApp', ['ionic'])
     //});
     ///////////
 
-    $scope.formulaCollection = get360Date().data.examList.splice(0, 2);
+    $scope.formulaCollection = get360Date().data.examList.splice(1,2);
 
 
     //$scope.cacheName = function (formula, id) {
@@ -782,18 +798,28 @@ angular.module('ionicApp', ['ionic'])
         color: "inherit!important",
         updateTime: 30, updateDelay: 6,
         messageStyle: "none",
-        disabled: false
-        //disabled:true
+        //disabled: false
+        disabled:true
       },
       skipStartupTypeset: true,//手动排版网页,必须的，否则copy公式会乱码
       messageStyle: "none", //公式解析时左下角不再出现进度提示
       "HTML-CSS": {//这里以HTML-CSS为例
         linebreaks: {automatic: true}, //自动换行
         showMathMenu: false, //在网页上右键公式出现查看公式源码菜单
-        EqnChunk: 5, //表示公式被排版显示在屏幕上的数量   越大 闪烁越少但是延迟显示的时间越长
-        EqnChunkFactor: 1.5,//每次公式显示数量增长倍数
+        EqnChunk: 1, //表示公式被排版显示在屏幕上的数量   越大 闪烁越少但是延迟显示的时间越长
+        EqnChunkFactor: 1,//每次公式显示数量增长倍数
         EqnChunkDelay: 10  //单位毫秒，每次显示的间隔，这样允许浏览器相应用户的其他交互请求）
       }
+    });
+
+    MathJax.Hub.Queue(
+      ["Typeset",MathJax.Hub,'zone2'],
+      function () {
+        console.log("lalalla in ")
+    });
+
+    MathJax.Hub.Register.StartupHook("End",function () {
+      console.log("l22222")
     });
     //   MathJax.Hub.Configured();
   });
