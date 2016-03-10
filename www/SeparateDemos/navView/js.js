@@ -1,68 +1,86 @@
 angular.module('ionicApp', ['ionic'])
-    .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
-        $ionicConfigProvider.backButton.previousTitleText(false).text('');
+  .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    $ionicConfigProvider.backButton.previousTitleText(false).text('');
 
-        $stateProvider
-            .state('tabs', {
-                url: "/tab",
-                abstract: true,
-                templateUrl: "templates/tabs.html"
-            })
-            .state('tabs.home', {
-                url: "/home",
-                views: {
-                    'home-tab': {
-                        templateUrl: "templates/home.html",
-                        controller: 'HomeTabCtrl'
-                    }
-                }
-            })
-            .state('tabs.facts', {
-                url: "/facts",
-                views: {
-                    'home-tab': {
-                        templateUrl: "templates/facts.html"
-                    }
-                }
-            })
-            .state('tabs.facts2', {
-                url: "/facts2",
-                views: {
-                    'home-tab': {
-                        templateUrl: "templates/facts2.html"
-                    }
-                }
-            })
-            .state('tabs.about', {
-                url: "/about",
-                views: {
-                    'about-tab': {
-                        templateUrl: "templates/about.html"
-                    }
-                }
-            })
-            .state('tabs.navstack', {
-                url: "/navstack",
-                views: {
-                    'about-tab': {
-                        templateUrl: "templates/nav-stack.html"
-                    }
-                }
-            })
-            .state('tabs.contact', {
-                url: "/contact",
-                views: {
-                    'contact-tab': {
-                        templateUrl: "templates/contact.html"
-                    }
-                }
-            });
+    $stateProvider
+      .state('tabs', {
+        url: "/tab",
+        abstract: true,
+        templateUrl: "templates/tabs.html"
+      })
+      .state('tabs.home', {
+        url: "/home",
+        views: {
+          'home-tab': {
+            templateUrl: "templates/home.html"
+           // controller: 'HomeTabCtrl'
+          }
+        }
+      })
+      .state('tabs.facts', {
+        url: "/facts",
+        views: {
+          'home-tab': {
+            templateUrl: "templates/facts.html"
+          }
+        }
+      })
+      .state('tabs.facts2', {
+        url: "/facts2",
+        views: {
+          'home-tab': {
+            templateUrl: "templates/facts2.html"
+          }
+        }
+      })
+      .state('tabs.about', {
+        url: "/about",
+        views: {
+          'about-tab': {
+            templateUrl: "templates/about.html"
+          }
+        }
+      })
+      .state('tabs.navstack', {
+        url: "/navstack",
+        views: {
+          'about-tab': {
+            templateUrl: "templates/nav-stack.html",
+            controller: 'HomeTabCtrl'
+          }
+        }
+      })
+      .state('tabs.contact', {
+        url: "/contact",
+        views: {
+          'contact-tab': {
+            templateUrl: "templates/contact.html"
+          }
+        }
+      });
 
 
-        $urlRouterProvider.otherwise("/tab/home");
+    $urlRouterProvider.otherwise("/tab/home");
 
-    })
+  })
 
-    .controller('HomeTabCtrl', function($scope) {
-        console.log('HomeTabCtrl');
+  .controller('HomeTabCtrl', function ($scope) {
+    $scope.$on('$ionicView.loaded', function (event, viewData) {
+      console.log("test in home")
+
     });
+
+
+    $scope.$on('$ionicView.unloaded', function (event, viewData) {
+      console.log("unloaded in home")
+
+    });
+    $scope.$on('$ionicView.enter', function (event, viewData) {
+      console.log("enter in home")
+
+    });
+    $scope.$on('$ionicView.leave', function (event, viewData) {
+      console.log("leave in home")
+
+    });
+  });

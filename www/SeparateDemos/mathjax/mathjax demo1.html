@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>这里显示动态加载数据的例子</title>
+  <meta charset="UTF-8">
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+渲染动态内容的例子
+  <div id="zone1">
+    暂时空白<br>
+  </div>
+  <div id="zone1copy">
+    复制公式的地方
+  </div>
+  <button  id="btnDrawZone1">加载数据并渲染</button>
+<button  id="btnDrawZone1copy">复制公式数据出来</button>
+  <hr>
+  渲染静态内容的例子
+  <div id="zone2">区域之外的，不进行公式渲染：
+    \(a_n\), \(\alpha+\beta=\gamma\),$$\alpha+\beta=\gamma$$
+  </div>
+  <button  id="btnDrawZone2">渲染区域2</button>
+
+
+</body>
+</html>
+<script>
+  //一开始把公式所在区域隐藏
+  var target = document.getElementById('zone1');
+  //按钮绑定
+  document.getElementById("btnDrawZone1").addEventListener("click", initDataAndDraw);
+  document.getElementById("btnDrawZone1copy").addEventListener("click", copyFormula);
+  document.getElementById("btnDrawZone2").addEventListener("click", function(){draw("zone2")});
+
+  function copyFormula(){
+    //复制公式结果
+    //直接复制：document.getElementById('zone1copy').innerHTML=target.innerHTML;
+    //存储复制
+    localStorage.setItem("test",target.innerHTML);
+    console.log(  localStorage.getItem("test"))
+    document.getElementById('zone1copy').innerHTML=localStorage.getItem("test");
+  }
+
+  //取得随机数
+  function getRandomIntInclusive(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  //初始化数据并渲染公式
+  function initDataAndDraw(){
+    var intI= getRandomIntInclusive(1,20);
+    console.log(intI);
+    var strTex= get360Date().bizData[intI].examName;
+    //console.log( target.innerHTML);
+    target.innerHTML=strTex ;
+    draw('zone1');
+  }
+
+  //开始渲染公式
+  function draw(targetId) {
+    console.log("draw "+targetId+"begin");
+    var timerb=new Date().getTime();
+    MathJax.Hub.Queue(function () {
+        MathJax.Hub.Typeset(targetId, function(){ console.log('公式耗时：'+(new Date().getTime()-timerb )) });//必要的时候手工执行排版
+        console.log("queue complete!")
+      }
+    );
+    console.log("draw end");
+  }
+
+
+  //配置mathjax
+  MathJax.Hub.Config({
+    "fast-preview": {
+      Chunks: {EqnChunk: 5, EqnChunkFactor: 1.5, EqnChunkDelay: 0},
+      color: "inherit!important",
+      updateTime: 30, updateDelay: 6,
+      messageStyle: "none",
+      disabled: false
+    },
+    skipStartupTypeset: true,//手动排版网页
+    messageStyle: "none", //公式解析时左下角不再出现进度提示
+    "HTML-CSS": {//这里以HTML-CSS为例
+      linebreaks: {automatic: true}, //自动换行
+      showMathMenu: false, //在网页上右键公式出现查看公式源码菜单
+      EqnChunk: 5, //表示公式被排版显示在屏幕上的数量   越大 闪烁越少但是延迟显示的时间越长
+      EqnChunkFactor: 1.5,//每次公式显示数量增长倍数
+      EqnChunkDelay: 10  //单位毫秒，每次显示的间隔，这样允许浏览器相应用户的其他交互请求）
+    }
+  });
+
+
+  //需要2个转义符号连用才行。与目前服务端接口一致
+  function get360Date(){
+    var result=
+    {
+      "bizData": [
+        {
+          "createDate": 1438944432000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n除法是\n \\((\\qquad)\\)\n的逆运算．",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 除法是乘法的逆运算；<br />故选：B． \n\n",
+          "id": "fe20c789-2ec7-4936-81b7-b2be3e63c9bb",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+        "createDate": 1438944432000,
+        "createUser": "system",
+        "examGrade": "x4",
+        "examName": "\n除法是\n \\((\\qquad)\\)\n的逆运算．",
+        "examSubject": "sx",
+        "examType": "YX",
+        "explainPicture": " \n\n 除法是乘法的逆运算；<br />故选：B． \n\n",
+        "id": "fe20c789-2ec7-4936-81b7-b2be3e63c9bb",
+        "isDel": 0,
+        "rightAnswer": "B"
+      },
+        {
+          "createDate": 1438944411000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n下面算式和2\\(\\times\\)9\\(\\div\\)3的运算顺序相同的是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 根据题意可得：2\\(\\times\\)9\\(\\div\\)3是按照从左向右的顺序进行计算；<br />A、36-6\\(\\times\\)5，先算乘法后算减法；<br />B、56+14\\(\\div\\)7，先算除法，再算加法；<br />C、43-25+18．先算减法，再算加法们也是按照从左向右的顺序进行计算；<br />D、240\\(\\div\\)（20\\(\\div\\)5），先算括号里面的除法，再算括号外面的除法．<br />由以上分析，只有C选项的运算顺序与2\\(\\times\\)9\\(\\div\\)3的运算顺序相同．<br />故选：C． \n\n",
+          "id": "fe11f19c-2b86-4bce-86c1-4142bf1caa13",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438944011000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n276-198的简便运算方法是．\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 根据凑整法，276-198的简便运算方法是276-200+2．<br />故选：A． \n\n",
+          "id": "fddaff82-2f2e-4809-81f8-6dbec2200e05",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438943276000,
+          "createUser": "system",
+          "examGrade": "x6",
+          "examName": "\n下列各式中，运算正确的是…\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "id": "fcb2279d-f61d-4ae0-b5c1-90c25628d5f0",
+          "isDel": 0,
+          "rightAnswer": "D"
+        },
+        {
+          "createDate": 1438944016000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n加法运算律与减法的性质在小数运算中\n<u>_____</u>&nbsp;",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 整数的运算定律在小数运算中仍然适用．<br />故选：C． \n\n",
+          "id": "fad58797-b670-4881-b2c2-44169882dc85",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438944372000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n560-60+14-5正确的运算顺序是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 560-60+14-5，<br />=500+14-5，<br />=514-5，<br />=509．<br />按照先算减法，再算加法，最后算减法的运算顺序计算．<br />故选：C． \n\n",
+          "id": "f970b071-556c-48e8-8f3a-389bfae7b233",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438944399000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n计算73+27\\(\\times\\)54-14的第二步运算是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 73+27\\(\\times\\)54-14的第二步运算是加法；<br />故选：A． \n\n",
+          "id": "f80a554f-a6dd-4307-ba21-44b042970748",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438944148000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n一个小数的小数点向左移动2位，就相当于把这个数进行了怎样的运算？\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 一个小数的小数点向左移动2位，这个数就比原来缩小100倍，相当于把这个数乘1%．<br />故选：B． \n\n",
+          "id": "f6ebc447-83de-4aca-98d7-7029b5d72f60",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438943993000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n4\\(\\times\\)89\\(\\times\\)25=89\\(\\times\\)（4\\(\\times\\)25）应用的运算定律是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 解4\\(\\times\\)89\\(\\times\\)25=89\\(\\times\\)（4\\(\\times\\)25）应用的运算定律是：<br />乘法交换律与结合律．<br />故选：D． \n\n",
+          "id": "f6d4256a-fc95-4f58-be01-3ce0eb91fa8f",
+          "isDel": 0,
+          "rightAnswer": "D"
+        },
+        {
+          "createDate": 1438944417000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n52+348\\(\\div\\)4\\(\\times\\)3的运算顺序是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 52+348\\(\\div\\)4\\(\\times\\)3，<br />=52+96\\(\\times\\)3，<br />=52+288，<br />=340；<br />按照先算除法，再算乘法，最后算加法的运算顺序，即除→乘→加；<br />故选：A． \n\n",
+          "id": "f69460ba-368e-406f-be5d-112da0256ca4",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438943948000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n下面\n \\((\\qquad)\\)\n算式在运算时，先算乘法．",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n A，42\\(\\div\\)7\\(\\times\\)5，先算除法，再算乘法，不符合要求；<br />B，40-5\\(\\times\\)5，先算乘法，再算减法，符合要求；<br />C，（15-10）\\(\\times\\)7，先算小括号里面的减法，再算括号外的乘法，不符合要求；<br />故答案选：B． \n\n",
+          "id": "f5df6f28-e8e9-4efa-8427-dfadb6066d03",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438944390000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n（734-699）\\(\\times\\)（1000\\(\\div\\)25）的运算顺序是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n （734-699）\\(\\times\\)（1000\\(\\div\\)25），<br />=35\\(\\times\\)（1000\\(\\div\\)25），<br />=35\\(\\times\\)40，<br />=1200；<br />或：<br />（734-699）\\(\\times\\)（1000\\(\\div\\)25），<br />=35\\(\\times\\)40，<br />=1400；<br />先算第一个小括号里面的减法，再算第二个小括号里面的除法，最后算括号外的乘法，或者同时运算两个小括号里面的减法和除法，最后算括号外的乘法．<br />故选：A． \n\n",
+          "id": "f52d7e26-99d5-4f13-b0b2-1788a8afd8d2",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438944002000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n87\\(\\times\\)\n  \\(\\dfrac{3}{86}\\)\n=86\\(\\times\\)\n\\(\\dfrac{3}{86}\\) \n+\n\\(\\dfrac{3}{86}\\) \n，这是运用了\n \\((\\qquad)\\)\n运算律．",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 解：87\\(\\times\\)\n \\(\\dfrac{3}{86}\\)\n ，<br />=（86+1）\\(\\times\\)\n \\(\\dfrac{3}{86}\\)\n ，<br />=86\\(\\times\\)\n \\(\\dfrac{3}{86}\\)\n +\n \\(\\dfrac{3}{86}\\)\n ；<br />运用了乘法分配律；<br />故选：C． \n\n",
+          "id": "f37d769f-7cfb-43b0-a668-8fb2fcf55e20",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438943942000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n200\\(\\times\\)[（172-72）\\(\\div\\)25]的运算顺序是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n <br />200\\(\\times\\)[（172-72）\\(\\div\\)25]的运算顺序是先算小括号里面的减法，再算中括号里面的除法，最后算乘法．<br />故答案选：B． \n\n",
+          "id": "f349c70b-0681-4db7-8563-b2b718373dc5",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438943352000,
+          "createUser": "system",
+          "examGrade": "x6",
+          "examName": "\n下列运算的结果中，是正数的是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 解：（-1）\n \\({^2007}\\)\n =-1；<br />（-1）\n \\({^2008}\\)\n =1；<br />（-1）\\(\\times\\)2008=-2008；<br />（-2008）\\(\\div\\)2008=-1．<br />故选：B． \n\n",
+          "id": "f1d7c768-7de5-43ad-9b32-a4e0e1e3f779",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438944413000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n与483-8+9运算顺序一样的是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 483-8+9按照从左到右的顺序计算；<br />A：2\\(\\times\\)6\\(\\times\\)3，是同级运算，按照从左到右的顺序计算；<br /><br />B：29-4\\(\\times\\)20，先算乘法，再算减法；<br /><br />C：68-（20\\(\\times\\)3）+8有小括号，先算小括号里面的乘法，再算括号外的减法，最后算加法．<br />只有A是按照从左到右的顺序计算．<br />故选：A． \n\n",
+          "id": "f1c0fac3-ec95-4bc3-9c65-7740f63ca7ff",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438944006000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n用简便方法计算（\n\\(\\dfrac{8}{9}\\) \n+\n  \\(\\dfrac{4}{27}\\)\n）\\(\\times\\)27时候用到的运算律是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 解：根据乘法分配律的意义可知，<br />计算（\n \\(\\dfrac{8}{9}\\)\n +\\(\\dfrac{4}{27}\\) \n ）\\(\\times\\)27时候用乘法分配律计算比较简便．<br />即（\n \\(\\dfrac{8}{9}\\)\n +\\(\\dfrac{4}{27}\\) \n ）\\(\\times\\)27=\n \\(\\dfrac{8}{9}\\)\n \\(\\times\\)27+\n \\(\\dfrac{4}{27}\\)\n \\(\\times\\)27．<br />故选：C． \n\n",
+          "id": "ef335eac-e9fd-456b-8a9e-b4a87d65fe6c",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1437650694000,
+          "createUser": "system",
+          "examGrade": "c3",
+          "examName": "现定义某种运算&nbsp;\\(a⊕b=a\\left(a&gt;b\\right)\\)，若&nbsp;\\(\\left(x+2\\right)⊕x^{2}=x+2\\)，那么&nbsp;\\( x \\)&nbsp;的取值范围是 \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": "由定义运算得：\\(x+2&gt;x^{2}\\)，\n<br />即&nbsp;\\(x^{2}-x-2&lt;0\\)．\n<br />设&nbsp;\\(y=x^{2}-x-2\\)，函数图象开口向上，图象与&nbsp;\\( x \\)&nbsp;轴的交点是&nbsp;\\(\\left(-1,0\\right)\\)，\\(\\left(2, 0\\right)\\)．\n<br />由图象可知，当&nbsp;\\(- 1&lt;x&lt;2\\)&nbsp;时，\\( y&lt;0 \\)，\n<br />即&nbsp;\\( x \\)&nbsp;的取值范围为&nbsp;\\(- 1&lt;x&lt;2\\)．",
+          "id": "ed68649b-fd54-42a6-abc9-f23b5eb2cb99",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438944416000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n运算顺序是：加→乘的算式是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n A、30+60\\(\\times\\)30，<br />=30+1800，<br />=1830；<br />先算乘法，再算加法；<br /><br />B、60\\(\\times\\)30+30，<br />=1800+30，<br />=1830；<br />先算乘法，再算加法；<br /><br />C、（30+60）\\(\\times\\)30，<br />=90\\(\\times\\)30，<br />=2700；<br />先算小括号里面的加法，再算括号外的乘法．<br />故选：C． \n\n",
+          "id": "e9b7c1de-ae14-4b42-9ecc-d10b053e771e",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438943991000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n101\\(\\times\\)35=（100+1）\\(\\times\\)35=100\\(\\times\\)35+1\\(\\times\\)35=3535的运算是应用了\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 101\\(\\times\\)35<br />=（100+1）\\(\\times\\)35<br />=100\\(\\times\\)35+1\\(\\times\\)35<br />=3500+35<br />=3535<br />运用了乘法分配律．<br />故选：C． \n\n",
+          "id": "e3a53bd0-7c11-4ac0-a63b-13251e89d269",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438944417000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n（25+5\\(\\times\\)5）\\(\\div\\)10的正确运算顺序是\n<u>_____</u>&nbsp;",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n （25+5\\(\\times\\)5）\\(\\div\\)10的正确运算顺序是：乘法、加法、除法．<br />故选：B． \n\n",
+          "id": "e352be6e-da87-464c-a0f9-70753680284e",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438943944000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n下面运算顺序一样的一组是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n A、48-26+35是同级运算，按照从左到右的顺序计算；<br />36\\(\\div\\)2\\(\\times\\)7是同级运算，按照从左到右的顺序计算；这两个算式的运算顺序相同；<br /><br />B、70-56\\(\\div\\)8先算后面的除法，再算前面减法；<br />（72-12）\\(\\div\\)6先算前面括号里面的减法，再算后面的除法；这两个算式的运算顺序不同；<br /><br />C、50\\(\\div\\)5\\(\\times\\)7，是同级运算，按照从左到右的顺序计算；<br />50-5\\(\\times\\)7先算后面的乘法，再算前面的减法；这两个算式的运算顺序不同；<br />运算顺序相同的只有A．<br />故选：A． \n\n",
+          "id": "e228e5c8-409f-4fa7-b025-845585534e47",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438944655000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n与6.45+8.37+1.63的运算顺序不同的是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n A、a+b+c中只含有同一级运算，要按照从左到右的顺序进行计算．<br />B、a-b\\(\\div\\)c中含有两级运算，要先算第二级运算，再算第一级运算．<br />C、a\\(\\div\\)b\\(\\times\\)c中只含有同一级运算，要按照从左到右的顺序进行计算．<br />故选B． \n\n",
+          "id": "e1eab4a8-90b1-455a-a762-ba687edf49d1",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1437650538000,
+          "createUser": "system",
+          "examGrade": "c2",
+          "examName": "下列运算中，正确的是 \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": "\\(4a-3a=a\\)；\n<br />&nbsp;\\(a\\cdot a^2=a^3\\)；\n<br />&nbsp;\\(3a^6\\div a^3=3a^3\\)；\n<br />&nbsp;\\(\\left(ab^2\\right)^2=a^2b^4\\)．",
+          "id": "e126b4ff-cb4b-47d1-b4ed-fa5908146254",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1437650538000,
+          "createUser": "system",
+          "examGrade": "c2",
+          "examName": "下列各运算中，正确的是 \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "id": "e030a16e-79ba-4177-8185-1cd049b7be63",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438943948000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n你玩过“数字黑洞”的游戏吗？“数字黑洞”，既满足某种条件的所有数，通过一种运算，都能被它“吸”进去，无一能逃脱它的魔掌，下面我们就来玩一种数字游戏，它可以产生“黑洞数”，操作步骤如下：第一步，任意写出一个自然数（以下称为原数）；第二步，再写一个新的三位数，它的百位数字是原数中偶数数字的个数，十位数字是原数中奇数数字的个数，个位数字是原数的位数；以下每一步，都对上一步得到的数按照第二步的规则继续操作，直至这个数不再变化为止．不管你开始写的是一个什么数，几步之后变成的自然数总是相同的，最后这个总相同的数就称为“黑洞数”．请你以2008为例尝试一下：第一部写出2008，第二步之后变为…所以这个数字游戏的“黑洞数”是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 根据题意计算可知2008经过一步之后变为404，<br />经过第二步后变为403，再变为213，再变为123，再变为123，<br />即发现黑洞数是123．<br />故选：A． \n\n",
+          "id": "df9ed6aa-8572-4284-b7f5-3c7cca24f343",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438943975000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n17╳5╳20=17╳（5╳20）运用了\n \\((\\qquad)\\)\n运算定律？",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 17\\(\\times\\)5\\(\\times\\)20=17\\(\\times\\)（5\\(\\times\\)20）运用了乘法结合律，<br />故答案选：A． \n\n",
+          "id": "df207930-9d42-4448-b41b-94322d6ca5f3",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+        {
+          "createDate": 1438944416000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n下列算式中，去掉小括号后，运算顺序不变的是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n A，（30+2）\\(\\div\\)8，先算小括号里面的加法，再算括号外的除法；<br />去掉括号后变成30+2\\(\\div\\)8，就先算除法，再算加法；运算顺序变化了．<br /><br />B，（35\\(\\times\\)5）\\(\\div\\)7，先算小括号里面的乘法，再算括号外的除法；<br />去掉括号后变成35\\(\\times\\)5\\(\\div\\)7，按照从左到右的顺序计算，也是先算乘法，再算除法；运算顺序不变．<br /><br />C，（32-2）\\(\\times\\)2，先算小括号里面的减法，再算括号外的乘法；<br />去掉括号后变成32-2\\(\\times\\)2，就先算乘法，再算减法；运算顺序变化了．<br />故选：B． \n\n",
+          "id": "de440e48-5143-4796-b33f-a9bbac01e800",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1437650305000,
+          "createUser": "system",
+          "examGrade": "c1",
+          "examName": "下列运算中正确的是 \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "id": "de0041b0-70e8-4aa6-b332-158f6180293e",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438943944000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n[480-（260+120）]\\(\\div\\)25的运算顺序是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n [480-（260+120）]\\(\\div\\)25<br />=[480-380]\\(\\div\\)25<br />=100\\(\\div\\)25<br />=4<br />运算顺序：加→减→除．<br />故选：B． \n\n",
+          "id": "ddd6fb4a-ff60-4803-82b2-79c175b799cd",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1437650393000,
+          "createUser": "system",
+          "examGrade": "c1",
+          "examName": "下列运算正确的是 \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "id": "dbf750ef-c277-4d65-8b62-d06ad1a1685c",
+          "isDel": 0,
+          "rightAnswer": "C"
+        },
+        {
+          "createDate": 1438943944000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n600+600\\(\\div\\)25\\(\\times\\)4的运算顺序正确的是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 600+600\\(\\div\\)25\\(\\times\\)4的正确运算顺序是除法→乘法→加法．<br />故选：D． \n\n",
+          "id": "db4babfe-9f58-44d7-b8da-bc9f8e74206c",
+          "isDel": 0,
+          "rightAnswer": "D"
+        },
+        {
+          "createDate": 1437650584000,
+          "createUser": "system",
+          "examGrade": "c2",
+          "examName": "下列运算正确是 \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "id": "d93f7419-c146-4efc-8ddf-8d28acb348d1",
+          "isDel": 0,
+          "rightAnswer": "D"
+        },
+        {
+          "createDate": 1438944022000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n计算35\\(\\times\\)98的最简便的运算方法是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 本题根据凑整法将原式变为35\\(\\times\\)（100-2）后，<br />再运用乘法分配律计算最简便．<br />故选：B． \n\n",
+          "id": "d5e97b3b-9263-463f-a5e9-5643ce7564b8",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438944385000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n算式9650-1824\\(\\div\\)76\\(\\times\\)21的运算顺序是先算\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 算式9650-1824\\(\\div\\)76\\(\\times\\)21的运算顺序是先算除法．<br />故选：B． \n\n",
+          "id": "d4e96970-ec18-44f5-90b4-0ba5f2a4c879",
+          "isDel": 0,
+          "rightAnswer": "B"
+        },
+        {
+          "createDate": 1438943943000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n小林在计算（1800-囗）\\(\\div\\)24+36时，没注意题中的括号，先用囗里的数除以24，然后按四则运算的顺序计算得1834，这道题的正确得数应该是\n \\((\\qquad)\\)",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n 1800-囗\\(\\div\\)24+36=1834，<br />1836-囗\\(\\div\\)24=1834，<br />1836-1834=囗\\(\\div\\)24，<br />囗\\(\\div\\)24=2，<br />囗=2\\(\\times\\)24，<br />囗=48；<br />（1800-囗）\\(\\div\\)24+36，<br />=（1800-48）\\(\\div\\)24+36，<br />=1752\\(\\div\\)24+36，<br />=73+36，<br />=109．<br />答：这道题的正确答案是109． \n\n",
+          "id": "d3ca6a60-757f-4ee4-bb37-48a7c9c80d5f",
+          "isDel": 0,
+          "rightAnswer": "A"
+        },
+
+        {
+          "createDate": 1438943948000,
+          "createUser": "system",
+          "examGrade": "x4",
+          "examName": "\n判断下面4道题，\n \\((\\qquad)\\)\n题是运算正确的．",
+          "examSubject": "sx",
+          "examType": "YX",
+          "explainPicture": " \n\n A，（198+102）\\(\\div\\)25\\(\\times\\)4，<br />=300\\(\\div\\)25\\(\\times\\)4，<br />=12\\(\\times\\)4，<br />=48；<br /><br />B，25\\(\\times\\)（40+8），<br />=25\\(\\times\\)40+25\\(\\times\\)8<br />=1000+200，<br />=1200；<br /><br />C，375-（75+163），<br />=375-75-163，<br />=300-163，<br />=137；<br /><br />D，360-（170+190）\\(\\div\\)40<br />=360-360\\(\\div\\)40<br />=360-9，<br />=351；<br />只有C选项正确；<br />故选：C． \n\n",
+          "id": "01547371-2d8a-4a65-a6db-0dce950d0978",
+          "isDel": 0,
+          "rightAnswer": "C"
+        }],
+      "rtnCode": "0000000",
+      "ts": 1452932165864
+    }
+    return result;
+  }
+
+
+</script>

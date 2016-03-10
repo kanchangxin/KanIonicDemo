@@ -23,5 +23,7 @@
     "ionic-plugin-keyboard",
     "D:\\plugins\\cn.zxj.cordova.UmengAnalyticsPlugin"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }
