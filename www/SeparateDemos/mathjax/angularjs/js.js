@@ -80,13 +80,13 @@ angular.module('ionicApp', ['ionic'])
     //};
 
   }])
-  .directive('emitLastRepeaterElement', function() {
-    return function(scope) {
-      if (scope.$last){
-        scope.$emit('LastRepeaterElement');
-      }
-    };
-  })
+  //.directive('emitLastRepeaterElement', function() {
+  //  return function(scope) {
+  //    if (scope.$last){
+  //      scope.$emit('LastRepeaterElement');
+  //    }
+  //  };
+  //})
   .directive("mathjaxBind", function () {
     return {
       restrict: "A",
@@ -116,17 +116,6 @@ angular.module('ionicApp', ['ionic'])
                       //  console.log( $element[0].innerHTML )
                       //}
                     );
-
-                    //MathJax.Hub.Queue(function () {//这里没办法做到一题一次！
-                    //  MathJax.Hub.Typeset($element[0],
-                    //  //  function () {
-                    //  //  console.log('公式耗时：'+$element[0].id+","+ (new Date().getTime() - timerb ));
-                    //  //
-                    //  //  setCache();
-                    //  //}
-                    //    dosomethins($element[0].id,timerb)
-                    //  );
-                    //});
           })
         });
         function dosomethins(id,timerbegin ){
@@ -137,21 +126,37 @@ angular.module('ionicApp', ['ionic'])
           //console.log( ele.innerHTML )
           ExamDBValue.set(id, ele.innerHTML).then(function (res) {console.log("写缓存耗时：" + (new Date().getTime() - timerb2 ))},function (err) {console.log(err)})
         }
-        //function setCache(id){
-        //  //批次存入缓存
-        //  var timerb2 = new Date().getTime();
-        //  var elements=document.getElementsByName('ffff');
-        //  for(var i=0;i<elements.length ;i++ ){
-        //    if($scope.examid_cached.indexOf(elements[i].id  )==-1){
-        //        console.log(elements[i].innerHTML.indexOf('\\\\'));
-        //        ExamDBValue.set(elements[i].id, elements[i].innerHTML).then(function (res) {console.log("写缓存耗时：" + (new Date().getTime() - timerb2 ))},function (err) {console.log(err)})
-        //    }else{
-        //      console.debug("已经有缓存了"+elements[i].id  )
-        //      continue;
-        //    }
-        //  }
-        //};
+
       }]
+    };
+  })
+
+  .filter('mathjaxAndCache', function ($sce,ExamDBValue) {
+    return  function (input,id) {
+      var target=document.getElementById(id);
+      //console.log("o "+id+","+ target);
+      //alert( target)
+      var r =  input ;
+      //如果此id的试题已经被缓存，则从缓存中读取
+      ExamDBValue.findOneValue( id).then(function (res) {
+        document.getElementById(id).innerHTML =res;
+           console.log("mathjaxBind  $watch 从缓存中读取:"+ id);
+      },function (err) {
+            console.debug("没找到:"+ id);
+            var timerb = new Date().getTime();
+            MathJax.Hub.Queue(
+              function(){document.getElementById(id).innerHTML=$sce.trustAsHtml( document.getElementById(id).innerText);    },
+              ["Typeset",MathJax.Hub,id]
+             ,[dosomethins,id,timerb] //等价于function(){ dosomethins($element[0].id,timerb)}
+            );
+      });
+      function dosomethins(id,timerbegin ){
+          console.log('公式：'+id+"耗时:"+ (new Date().getTime() - timerbegin ));
+          var timerb2 = new Date().getTime();
+          var ele=document.getElementById(id);
+          ExamDBValue.set(id, ele.innerHTML).then(function (res) {console.log("写缓存耗时：" + (new Date().getTime() - timerb2 ))},function (err) {console.log(err)})
+      };
+      return r;
     };
   })
 
@@ -183,7 +188,7 @@ angular.module('ionicApp', ['ionic'])
     //});
     ///////////
 
-    $scope.formulaCollection = get360Date().data.examList.splice(1,11);
+    $scope.formulaCollection = get360Date().data.examList.splice(1,3);
 
 
     //$scope.cacheName = function (formula, id) {
@@ -272,7 +277,7 @@ angular.module('ionicApp', ['ionic'])
                   "id": "37197fcc-a124-4ec8-ae3f-d7e598b483f9",
                   "examId": "375de904-a096-4e4b-a734-fec14b95cc12",
                   "eoSequence": "B",
-                  "eoName": "\\( 39 \\)",
+                  "eoName": "\\( 39 \\) \\( 2^3 \\)，",
                   "eoOrder": 2
                 },
                 {
@@ -290,7 +295,7 @@ angular.module('ionicApp', ['ionic'])
                   "eoOrder": 4
                 }],
               "examTitle": {
-                "EXAM_NAME": "\\( 2^3 \\)，\\( 3^3 \\)&nbsp;和&nbsp;\\( 4^3 \\)&nbsp;分别可以按如图所示方式&quot;分裂&quot;成&nbsp;\\( 2 \\)&nbsp;个、&nbsp;\\( 3 \\)&nbsp;个和&nbsp;\\( 4 \\)&nbsp;个连续奇数的和，\\( 6^3 \\)&nbsp;也能按此规律进行&quot;分裂&quot;，则&nbsp;\\( 6^3 \\)&nbsp;&quot;分裂&quot;出的奇数中最大的是 \\((\\qquad)\\) ．\n<br />\n<img src=\"http://file.k12.kssws.ks-cdn.com/20151024195154.3nkroovGCQ.png\" class=\"img-responsive\" />",
+                "EXAM_NAME": "\\( 39 \\) \\( 2^3 \\)，\\( 3^3 \\)&nbsp;和&nbsp;\\( 4^3 \\)&nbsp;分别可以按如图所示方式&quot;分裂&quot;成&nbsp;\\( 2 \\)&nbsp;个、&nbsp;\\( 3 \\)&nbsp;个和&nbsp;\\( 4 \\)&nbsp;个连续奇数的和，\\( 6^3 \\)&nbsp;也能按此规律进行&quot;分裂&quot;，则&nbsp;\\( 6^3 \\)&nbsp;&quot;分裂&quot;出的奇数中最大的是 \\((\\qquad)\\) ．\n<br />\n<img src=\"http://file.k12.kssws.ks-cdn.com/20151024195154.3nkroovGCQ.png\" class=\"img-responsive\" />",
                 "IS_RIGHT": 0,
                 "UT_ID": "eac1d718-cc45-4aea-b3bd-b7521a2fb7c1",
                 "EXPLAIN_PICTURE": "由题干中的图所给的条件可知：\n<br />&nbsp;\\( 5^3=21+23+25+27+29 \\)；\n<br />&nbsp;\\( 6^3=31+33+35+37+39+41 \\)．",
@@ -813,13 +818,14 @@ angular.module('ionicApp', ['ionic'])
       }
     });
 
-    $scope.test=function(){
-      MathJax.Hub.Queue(
-        ["Typeset",MathJax.Hub],
-        function () {
-          console.log("lalalla in ")
-        });
-    }
+    $scope.aa=get360Date().data.examList.splice(3,1)[0];
+    //$scope.test=function(){
+    //  MathJax.Hub.Queue(
+    //    ["Typeset",MathJax.Hub],
+    //    function () {
+    //      console.log("lalalla in ")
+    //    });
+    //}
 
 
     //MathJax.Hub.Register.StartupHook("End",function () {
