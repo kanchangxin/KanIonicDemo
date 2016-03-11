@@ -46,7 +46,7 @@ angular.module('ionicApp', ['ionic'])
             defer.resolve(value);
           }
         }, function(transaction, error) {
-          deferred.reject(error);
+          defer.reject(error);
         });
       });
       return defer.promise;
@@ -156,6 +156,7 @@ angular.module('ionicApp', ['ionic'])
   })
 
   .controller('formulaCtrl', function ($scope,ExamDb ) {
+
     //$scope.examid_cached=[];//已缓存的题目id
     //$scope.examid_nocache=[];//为缓存的题目id
     $scope.cleantable= function( ){
@@ -182,7 +183,7 @@ angular.module('ionicApp', ['ionic'])
     //});
     ///////////
 
-    $scope.formulaCollection = get360Date().data.examList.splice(1,2);
+    $scope.formulaCollection = get360Date().data.examList.splice(1,11);
 
 
     //$scope.cacheName = function (formula, id) {
@@ -794,7 +795,7 @@ angular.module('ionicApp', ['ionic'])
     //配置mathjax
     MathJax.Hub.Config({
       "fast-preview": {
-        Chunks: {EqnChunk: 5, EqnChunkFactor: 1.5, EqnChunkDelay: 0},
+        Chunks: {EqnChunk: 10, EqnChunkFactor: 1.5, EqnChunkDelay: 0},
         color: "inherit!important",
         updateTime: 30, updateDelay: 6,
         messageStyle: "none",
@@ -806,21 +807,24 @@ angular.module('ionicApp', ['ionic'])
       "HTML-CSS": {//这里以HTML-CSS为例
         linebreaks: {automatic: true}, //自动换行
         showMathMenu: false, //在网页上右键公式出现查看公式源码菜单
-        EqnChunk: 1, //表示公式被排版显示在屏幕上的数量   越大 闪烁越少但是延迟显示的时间越长
-        EqnChunkFactor: 1,//每次公式显示数量增长倍数
-        EqnChunkDelay: 10  //单位毫秒，每次显示的间隔，这样允许浏览器相应用户的其他交互请求）
+        EqnChunk: 20, //表示公式被排版显示在屏幕上的数量   越大 闪烁越少但是延迟显示的时间越长
+        EqnChunkFactor: 1.5,//每次公式显示数量增长倍数
+        EqnChunkDelay: 100  //单位毫秒，每次显示的间隔，这样允许浏览器相应用户的其他交互请求）
       }
     });
 
-    MathJax.Hub.Queue(
-      ["Typeset",MathJax.Hub,'zone2'],
-      function () {
-        console.log("lalalla in ")
-    });
+    $scope.test=function(){
+      MathJax.Hub.Queue(
+        ["Typeset",MathJax.Hub],
+        function () {
+          console.log("lalalla in ")
+        });
+    }
 
-    MathJax.Hub.Register.StartupHook("End",function () {
-      console.log("l22222")
-    });
+
+    //MathJax.Hub.Register.StartupHook("End",function () {
+    //  console.log("l22222")
+    //});
     //   MathJax.Hub.Configured();
   });
 
