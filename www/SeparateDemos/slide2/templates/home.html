@@ -8,16 +8,16 @@
         transform:translateX(0px) translateZ(0px);
         -webkit-transform: translateX(0px) translateZ(0px);">
 
-                    <div class="guide-bg" ng-repeat="aElement in alist" style="background-color:#2222{{aElement}}{{aElement}} ">
-                        {{aElement}}<br>1<br>1<br>1<br>1<br>
-                    </div>
+              <div class="guide-bg" ng-repeat="aElement in alist" style="background-color:#2222{{aElement}}{{aElement}} ">
+                {{aElement}}<br>1<br>1<br>1<br>1<br>
+              </div>
 
-                </div>
-                <ul id="guide-arrow" ng-if="guideFlag == 'a'">
-                    <li class="guide-bg" ng-repeat="aElement in alist"></li>
-                    <!--<li class="active"></li>-->
+            </div>
+              <ul id="guide-arrow" ng-if="guideFlag == 'a'">
+                <li class="guide-bg" ng-repeat="aElement in alist"></li>
+                <!--<li class="active"></li>-->
 
-                </ul>
+              </ul>
                 <div class="guide-sure" ng-if="guideFlag == 'b'" ng-click="guideSure()"></div>
             </div>
         </div>

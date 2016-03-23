@@ -1,0 +1,54 @@
+/**
+ * Created by changxin on 2016/3/12.
+ */
+<script>
+
+  var db = (function() {
+// 创建一个隐藏的object, 这个object持有一些数据
+// 从外部是不能访问这个object的
+    var data = {};
+// 创建一个函数, 这个函数提供一些访问data的数据的方法
+    return function(key, val) {
+      if (val === undefined) { return data[key] } // get
+      else { return data[key] = val } // set
+    }
+// 我们可以调用这个匿名方法
+// 返回这个内部函数，它是一个闭包
+  })(db);
+
+  console.log(db('x')); // 返回 undefined
+  console.log(db('x', 1)); // 设置data['x']为1
+  console.log(db('x')); // 返回 1
+  console.log(db('x', 3)); // 设置data['x']为1
+  console.log(db())
+  // 我们不可能访问data这个object本身
+  // 但是我们可以设置它的成员
+
+  function sum(arr) {
+    return arr.reduce(function (x, y) {
+      console.log("x:"+x+",y:"+y)
+      return x + y;
+    });
+  }
+
+ // alert (sum([1, 2, 3, 4, 5])  ); // 15
+
+
+  function count() {
+    var arr = [];
+    for (var i=1; i<=3; i++) {
+      arr.push(function () {
+        return i * i;
+      });
+    }
+    return arr;
+  }
+
+  var results = count();
+  var f1 = results[0];
+  console.log(f1())
+  var f2 = results[1];
+  console.log(f2())
+  var f3 = results[2];
+  console.log(f3())
+</script>

@@ -1,0 +1,55 @@
+<html ng-app="ionicApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <title>Tabs Example</title>
+
+  <!--<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">-->
+  <!--<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>-->
+  <link href="../../../lib/ionic/css/ionic.css" rel="stylesheet">
+  <script src="../../../lib/ionic/js/ionic.bundle.js"></script>
+  <!--<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+  <script src="../../../lib/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!--<script src="../../../lib/mathjax/MathJax.js?config=TeX-AMS-MML_SVG"></script> 不能实现copy展现-->
+  <script src="../../../lib/pouchdb-5.3.0.min.js"></script>
+  <script src="js.js"></script>
+
+
+</head>
+
+<body ng-controller="formulaCtrl">
+
+<ion-pane>
+  <ion-header-bar class="bar-stable">
+    <h1 class="title">Ionic Blank Starter</h1>
+  </ion-header-bar>
+  <ion-content style="font-size: 12px;" id="zone1">
+    <!--<span id="t008">{{ aa.examTitle.EXAM_NAME |mathjaxAndCache:'t008' }}</span>-->
+    <hr>
+    <button ng-click="cleantable()">cleantable</button>
+    &nbsp;
+    <button ng-click="adddata()">adddata</button>
+    <div ng-repeat="f in formulaCollection track by $index">
+
+      <span  name="ffff" mathjax-bind="f"></span>
+      <!--<span id="{{::f.examTitle.EXAM_ID}}">{{ f.examTitle.EXAM_NAME |mathjaxAndCache:f.examTitle.EXAM_ID }}</span>-->
+      <!--<ul class="selections" name="f1">-->
+        <!--<li ng-repeat='eOption in f.examOptions track by $index'>-->
+          <!--<strong>{{::eOption.eoSequence}}</strong>&nbsp; <span id="{{::f.examTitle.EXAM_ID}}{{$index}}">{{eOption.eoName|mathjaxAndCache: f.examTitle.EXAM_ID +$index }}</span>-->
+        <!--</li>-->
+      <!--</ul>-->
+      <hr>
+    </div>
+    <br>test：<br>
+
+    <div id="zone2">区域之外的，不进行公式渲染：
+      \(a_n\), \(\alpha+\beta=\gamma\),$$\alpha+\beta=\gamma$$
+    </div>
+  </ion-content>
+</ion-pane>
+<div id="formula_my">a</div>
+
+</body>
+</body>
+</html>

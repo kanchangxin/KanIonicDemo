@@ -1,0 +1,54 @@
+<html ng-app="ionicApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Tabs Example</title>
+
+    <!--<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">-->
+    <!--<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>-->
+    <link href="../../lib/ionic/css/ionic.css" rel="stylesheet">
+    <script src="../../lib/ionic/js/ionic.bundle.js"></script>
+    <script src="js.js"></script>
+
+    <!--<style>-->
+        <!--.bar .buttons span {-->
+            <!--display: none;-->
+        <!--}-->
+    <!--</style>-->
+</head>
+
+<body ng-controller="HomeTabCtrl">
+<ion-pane>
+<ion-header-bar class="bar-stable">
+<h1 class="title">Ionic Blank Starter</h1>
+</ion-header-bar>
+<ion-content>
+
+  <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true" pager-click="test(index)">
+
+    <ion-slide  ng-repeat="q  in questions" style="min-height: 200px;">
+
+      <h1 >{{$index}}</h1>
+    </ion-slide>
+
+
+
+    <ion-slide   style="min-height: 200px;">
+
+      <h1>ss111</h1>
+    </ion-slide>
+    <ion-slide   style="min-height: 200px;">
+
+      <h1>22222</h1>
+    </ion-slide>
+
+  </ion-slide-box>
+
+
+</ion-content>
+</ion-pane>
+
+
+</body>
+</html>

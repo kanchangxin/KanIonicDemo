@@ -1,0 +1,80 @@
+<ion-view view-title="无线动slide">
+  <ion-content id="t1">
+    <!--on-drag-left="onSwipeLeft()"-->
+    <div class="guide-start" on-swipe-left="onSwipeLeft()" on-swipe-right="onSwipeRight()">
+      <div id="guide">
+        <div id="guide-wrapper" data-value="0" style="-webkit-transition: 180ms ease-out;
+        transition: 180ms ease-out;
+        transform:translateX(0px) translateZ(0px);
+        -webkit-transform: translateX(0px) translateZ(0px);">
+          <div class="guide-bg" ng-repeat="aElement in alist">
+            {{aElement}}<br>1<br>1<br>1<br>1<br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
+<style>
+  #t1 .scroll {
+    height: 100%;
+  }
+  #content{
+    position: relative;
+    width: 16rem;
+    margin:  0 auto;
+  }
+  #guide{
+    position: absolute;
+    left: 50%;
+    margin-left: -8rem;
+    width: 16rem;
+    height: 100%;
+    overflow: hidden;
+  }
+  #guide-arrow{
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    margin-left: -90px;
+  }
+  #guide-arrow li{
+    float: left;
+    padding: 2px 12px;
+    margin-right: 15px;
+    background-color: #fafafa;
+    -webkit-transform:skew(-40deg,0deg);
+    transform:skew(-40deg,0deg);
+  }
+  #guide-arrow .active{
+    background-color: #a9a9a9;
+  }
+  #guide-wrapper{
+    width: 1600rem;
+    height: 100%;
+    overflow: hidden;
+  }
+  #guide-wrapper div{
+    width: 16rem;
+    height: 100%;
+    float: left;
+  }
+  .guide-bg{
+    /*background: url(img/welcome-a.jpg) 0 0 no-repeat;*/
+    /*background-size: 16rem;*/
+    /*left: 16rem;*/
+  }
+  .guide-sure{
+    position: absolute;
+    width: 6rem;
+    height: 2rem;
+    background: url(img/guide-sure.png) 0 0 no-repeat;
+    background-size: 5.9rem 1.7rem;
+    bottom: 80px;
+    left: 50%;
+    margin-left: -3rem;
+  }
+</style>
+
+

@@ -92,11 +92,16 @@ angular.module('ionicApp', ['ionic'])
       restrict: "A",
       controller: ["$scope", "$element", "$attrs", "ExamDBValue","$q",  function ($scope, $element, $attrs, ExamDBValue) {
         $scope.$watch($attrs.mathjaxBind, function (value) {
-          //console.log("mathjaxBind  $watch 触发:"+ $attrs.id)
+          //不能依赖于id，id在mathjaxBind变化的时候还不一定存在
+          //console.log($attrs.id+",,"+document.getElementById($attrs.id));
+          //console.log( value.examTitle.EXAM_ID+","+document.getElementById(value.examTitle.EXAM_ID));
+          //console.log($element[0].id+"，，,"+document.getElementById($element[0].id));
+          var id=value.examTitle.EXAM_ID;
+          //console.log("mathjaxBind  $watch 触发:"+ id)
           //如果此id的试题已经被缓存，则从缓存中读取
-          ExamDBValue.findOneValue($attrs.id).then(function (res) {
+          ExamDBValue.findOneValue(id).then(function (res) {
                     $element.html(res);
-                    console.log("mathjaxBind  $watch 从缓存中读取:"+ $attrs.id)
+                    console.log("mathjaxBind  $watch 从缓存中读取:"+ id)
                    // $scope.examid_cached.push($attrs.id);
                     //MathJax.Hub.Queue(
                     //  ["Process",MathJax.Hub,$element[0]]
@@ -104,13 +109,14 @@ angular.module('ionicApp', ['ionic'])
 
           },function (err) {
                     console.debug("没找到:"+$attrs.id);
-                    //$scope.examid_nocache.push($attrs.id);
-                    $element.html(value == undefined ? "" : value);
+                    var title=value.examTitle.EXAM_NAME;
+                    var options=getOptionText(value);
+                    $element.html(value == undefined ? "" : title+options);
                     var timerb = new Date().getTime();
 
                     MathJax.Hub.Queue(
                       ["Typeset",MathJax.Hub,$element[0]]
-                      ,[dosomethins, $element[0].id,timerb] //等价于function(){ dosomethins($element[0].id,timerb)}
+                      ,[setcache, id,timerb,$element] //等价于function(){ dosomethins($element[0].id,timerb)}
                       //,function () {
                       //  console.log($element[0].id+"处理完成,耗时："+(new Date().getTime() - timerb) );
                       //  console.log( $element[0].innerHTML )
@@ -118,13 +124,22 @@ angular.module('ionicApp', ['ionic'])
                     );
           })
         });
-        function dosomethins(id,timerbegin ){
+        function getOptionText(value){
+          //获得选项html text
+          var text="";
+          var len=value.examOptions.length;
+          for(var i=0;i<len;i++){
+            var eOption=value.examOptions[i];
+            text=text+"<li><strong>"+eOption.eoSequence+"</strong>&nbsp;<span>"+eOption.eoName+"</span></li>";
+          }
+          return "<ul class='selections' >"+text+"</ul>";
+        }
+        function setcache(theid,timerbegin, $element ){
 
-          console.log('公式：'+id+"耗时:"+timerbegin+","+ (new Date().getTime() - timerbegin ));
+          console.log('公式：'+theid+"耗时:"+timerbegin+","+ (new Date().getTime() - timerbegin ));
           var timerb2 = new Date().getTime();
-          var ele=document.getElementById(id);
-          //console.log( ele.innerHTML )
-          ExamDBValue.set(id, ele.innerHTML).then(function (res) {console.log("写缓存耗时：" + (new Date().getTime() - timerb2 ))},function (err) {console.log(err)})
+          var ele=$element.html();//document.getElementById(id);
+          ExamDBValue.set(theid, ele).then(function (res) {console.log("写缓存耗时：" + (new Date().getTime() - timerb2 ))},function (err) {console.log(err)})
         }
 
       }]
@@ -168,7 +183,9 @@ angular.module('ionicApp', ['ionic'])
       ExamDb.dropTable()
     }
     $scope.adddata=function(){
-      $scope.formulaCollection.push(get360Date().data.examList.splice(3,1)[0] );
+      //$scope.formulaCollection.push(get360Date().data.examList.splice(3,1)[0] );
+      $scope.formulaCollection=[]
+      $scope.formulaCollection = get360Date().data.examList.splice(8,1);
     }
 
      ///////////
